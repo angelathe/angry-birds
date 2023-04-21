@@ -23,8 +23,15 @@ class BirdCell: UITableViewCell {
             DispatchQueue.global(qos: .userInitiated).async {
                 let birdImageData = NSData(contentsOf: URL(string: self.bird!.imageUrl)!)
                 DispatchQueue.main.async {
-                    self.birdImageView.image = UIImage(data: birdImageData as! Data)
-                    self.birdImageView.layer.cornerRadius = self.birdImageView.frame.width / 2
+                    // DEFECT FIX 6F (W5 HW)
+                    // Wrapped this in and removed force casting
+                    if let imageData = birdImageData as? Data,
+                        let image = UIImage(data: imageData) {
+                        self.birdImageView.image = image
+                        self.birdImageView.layer.cornerRadius = self.birdImageView.frame.width / 2
+                    }
+//                    self.birdImageView.image = UIImage(data: birdImageData as! Data)
+//                    self.birdImageView.layer.cornerRadius = self.birdImageView.frame.width / 2
                 }
             }
         }
